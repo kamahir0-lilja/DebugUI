@@ -1,0 +1,23 @@
+{
+  "name": "com.kamahir0.debug-ui",
+  "displayName": "Lilja Debug UI",
+  "version": "0.1.0",
+  "unity": "6000.0",
+  "description": "In-game debug menu and UI toolkit extension for Unity.",
+  "keywords": [
+    "lilja"
+  ],
+  "author": {
+    "name": "kamahir0",
+    "url": "https://github.com/kamahir0"
+  },
+  "documentationUrl": "https://github.com/kamahir0/Lilja/blob/main/lilja-packages/lilja.debug-ui/README.md",
+  "changelogUrl": "https://github.com/kamahir0/Lilja/blob/main/lilja-packages/lilja.debug-ui/CHANGELOG.md",
+  "licensesUrl": "https://github.com/kamahir0/Lilja/blob/main/LICENSE",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kamahir0/DebugUI.git",
+    "directory": "Packages/com.kamahir0.debug-ui"
+  }
+}

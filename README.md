@@ -1,62 +1,57 @@
-﻿# Lilja.DebugMenu
+# Lilja Debug UI
 
-Included in the Lilja package series.
+[![license](https://img.shields.io/badge/LICENSE-MIT-green.svg)](LICENSE)
+![unity-version](https://img.shields.io/badge/unity-6000.0+-blue.svg)
 
-## Installation
+In-game debug menu and UI toolkit extension for Unity.
 
-1. Open Package Manager from Window > Package Manager.
-2. Click the "+" button > Add package from git URL.
-3. Enter the following URL:
+---
+
+## 📦 インストール方法
+
+### Package Manager (Git URL)
+
+Unity Editorの **Package Manager > [+] > Add package from git URL...** に以下を入力します：
 
 ```text
-https://github.com/kamahir0/Lilja.git?path=lilja-packages/lilja.debug-ui/src/Lilja.DebugUI
+https://github.com/kamahir0/DebugUI.git?path=/Packages/com.kamahir0.debug-ui
 ```
 
-Alternatively, open "Packages/manifest.json" and add the following to the dependencies block:
+特定のバージョンを指定する場合は、末尾にタグを付加してください（例: `#vcom.kamahir0.debug-ui`）。
+
+### manifest.json による導入
+
+プロジェクトの `Packages/manifest.json` の `dependencies` に直接追加することも可能です：
 
 ```json
 {
-    "dependencies": {
-        "com.kamahir0.lilja.debug-ui": "https://github.com/kamahir0/Lilja.git?path=lilja-packages/lilja.debug-ui/src/Lilja.DebugUI"
-    }
+  "dependencies": {
+    "com.kamahir0.debug-ui": "https://github.com/kamahir0/DebugUI.git?path=/Packages/com.kamahir0.debug-ui"
+  }
 }
 ```
 
-## Builder API
+---
 
-Use `IDebugUIBuilder` extension methods for common controls. Each method adds the control and returns the created element, so dynamic debug pages can keep handles for refresh logic.
-`VisualElement` also returns the added element when a custom control is needed.
 
-```csharp
-private DebugLabel _statusLabel;
-private DebugIntegerField _idField;
 
-public override void Configure(IDebugUIBuilder builder)
-{
-    builder.Label("Repository test");
-    _statusLabel = builder.Label();
-
-    builder.Foldout("Input", foldout =>
-    {
-        _idField = foldout.IntegerField("Id");
-
-        foldout.HorizontalScope(row =>
-        {
-            row.PrimaryButton("Create", Create);
-            row.SecondaryButton("Read", Read);
-            row.DangerButton("Delete", Delete);
-        });
-    });
-}
-```
-
-For temporary pages, use `TempNavigationButton`. Temporary pages open in the current host
-(runtime menu or editor window) and are not added to the editor page list:
+## 📖 基本的な使い方
 
 ```csharp
-builder.TempNavigationButton("Monster Repository", page =>
-{
-    page.Label("Monster tools");
-});
+using Lilja.DebugUI;
 ```
 
+---
+
+## 🛠️ 開発・検証方法
+
+本リポジトリ自体が独立したUnityプロジェクトになっています。Unity Hubから本リポジトリのルートフォルダを開くことで、開発および動作確認が可能です。
+
+- 配布対象パッケージ本体: `Packages/com.kamahir0.debug-ui/` (Embedded Package)
+- 開発・動作検証用コード: `Assets/Development/`
+
+---
+
+## 📄 ライセンス
+
+[MIT License](LICENSE)
