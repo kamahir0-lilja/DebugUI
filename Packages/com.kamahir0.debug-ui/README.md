@@ -14,7 +14,7 @@ In-game debug menu and UI toolkit extension for Unity.
 Unity Editorの **Package Manager > [+] > Add package from git URL...** に以下を入力します：
 
 ```text
-https://github.com/kamahir0/DebugUI.git?path=/Packages/com.kamahir0.debug-ui
+https://github.com/kamahir0-lilja/DebugUI.git?path=/Packages/com.kamahir0.debug-ui
 ```
 
 特定のバージョンを指定する場合は、末尾にタグを付加してください（例: `#vcom.kamahir0.debug-ui`）。
@@ -26,7 +26,7 @@ https://github.com/kamahir0/DebugUI.git?path=/Packages/com.kamahir0.debug-ui
 ```json
 {
   "dependencies": {
-    "com.kamahir0.debug-ui": "https://github.com/kamahir0/DebugUI.git?path=/Packages/com.kamahir0.debug-ui"
+    "com.kamahir0.debug-ui": "https://github.com/kamahir0-lilja/DebugUI.git?path=/Packages/com.kamahir0.debug-ui"
   }
 }
 ```

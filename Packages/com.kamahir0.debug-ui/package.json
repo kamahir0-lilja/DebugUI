@@ -17,7 +17,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/kamahir0/DebugUI.git",
+    "url": "https://github.com/kamahir0-lilja/DebugUI.git",
     "directory": "Packages/com.kamahir0.debug-ui"
   }
 }
