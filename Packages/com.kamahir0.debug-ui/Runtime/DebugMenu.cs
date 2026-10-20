@@ -11,13 +11,15 @@ namespace Lilja.DebugUI
     {
         private static DebugMenuWindow _window;
         private static DebugMenuRoot _menuRoot;
+        private static UIDocument _uiDocument;
         private static int _animVersion;
+        internal static event Action InitializationChanged;
 
         private const string RootName = "debug-menu-root";
         private const string WindowName = "debug-menu-window";
 
         /// <summary>Initialize() が呼ばれ、使用可能な状態かどうかを返す。</summary>
-        public static bool IsInitialized => _window != null;
+        public static bool IsInitialized => _uiDocument != null && _window != null;
 
         /// <summary>ランタイムデバッグメニューが現在表示状態かどうかを返す。</summary>
         public static bool IsVisible => _menuRoot?.pickingMode == PickingMode.Position;
@@ -26,18 +28,76 @@ namespace Lilja.DebugUI
 
         /// <summary>
         /// 指定したルートページでランタイムデバッグメニューを初期化する。
+        /// 初期化済みの場合は何もしない。ルートを変更する場合は先に Shutdown() を呼ぶ。
         /// </summary>
         /// <param name="rootPage">最初に表示するルートページ。</param>
         /// <param name="panelSettings">使用する PanelSettings。null の場合はパッケージ内の既定設定を使用する。</param>
         public static void Initialize(DebugPage rootPage, PanelSettings panelSettings = null)
         {
             if (rootPage == null) throw new ArgumentNullException(nameof(rootPage));
+            if (!Application.isPlaying)
+                throw new InvalidOperationException("[DebugMenu] Initialize() は Play Mode または Player で呼び出してください。");
+            if (IsInitialized) return;
 
             var go = new GameObject("[DebugMenu]");
             UnityEngine.Object.DontDestroyOnLoad(go);
-            var uiDoc = go.AddComponent<UIDocument>();
-            InitializeUIDocument(uiDoc, panelSettings);
-            InitializeRuntimeMenu(uiDoc, rootPage);
+            _uiDocument = go.AddComponent<UIDocument>();
+            go.AddComponent<DebugMenuLifetime>().Document = _uiDocument;
+            try
+            {
+                InitializeUIDocument(_uiDocument, panelSettings);
+                InitializeRuntimeMenu(_uiDocument, rootPage);
+            }
+            catch
+            {
+                Shutdown();
+                throw;
+            }
+            InitializationChanged?.Invoke();
+        }
+
+        /// <summary>メニューとページを解放する。再初期化でき、繰り返し呼び出しても安全。</summary>
+        public static void Shutdown()
+        {
+            var document = _uiDocument;
+            try
+            {
+                ReleaseRuntimeState();
+            }
+            finally
+            {
+                if (document != null)
+                {
+                    document.gameObject.SetActive(false);
+                    UnityEngine.Object.Destroy(document.gameObject);
+                }
+            }
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetOnPlayModeStart() => Shutdown();
+
+        internal static void OnDocumentDestroyed(UIDocument document)
+        {
+            if (ReferenceEquals(_uiDocument, document)) ReleaseRuntimeState();
+        }
+
+        private static void ReleaseRuntimeState()
+        {
+            var hadState = _window != null || DebugMenuCore.Shared != null;
+            try
+            {
+                DebugMenuCore.Shared?.HostRegistry.RequestOwnership(HostKind.None);
+            }
+            finally
+            {
+                ++_animVersion;
+                _window = null;
+                _menuRoot = null;
+                _uiDocument = null;
+                DebugMenuCore.Destroy();
+                if (hadState) InitializationChanged?.Invoke();
+            }
         }
 
         /// <summary>UIDocument に DebugMenu 用の PanelSettings と UXML を設定する。</summary>

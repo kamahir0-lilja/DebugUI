@@ -139,7 +139,7 @@ namespace Lilja.DebugUI
             SlidePage(currentPage, PagePosition.In, PagePosition.OutR, DebugMenuSettings.PageSlideDuration, () =>
             {
                 currentPage.OnHidden();
-                _pageCache.Return(currentPage);
+                ReturnPage(currentPage);
             });
 
             prevPage.OnShown();
@@ -165,7 +165,7 @@ namespace Lilja.DebugUI
             for (var i = 0; i < historyArray.Length - 1; i++)
             {
                 historyArray[i].OnHidden();
-                _pageCache.Return(historyArray[i]);
+                ReturnPage(historyArray[i]);
             }
 
             var currentPage = _currentPage;
@@ -175,7 +175,7 @@ namespace Lilja.DebugUI
             SlidePage(currentPage, PagePosition.In, PagePosition.OutR, DebugMenuSettings.PageSlideDuration, () =>
             {
                 currentPage.OnHidden();
-                _pageCache.Return(currentPage);
+                ReturnPage(currentPage);
             });
 
             rootPage.OnShown();
@@ -270,6 +270,8 @@ namespace Lilja.DebugUI
 
         private void OnNavigate(DebugPage targetPage)
         {
+            if (ReferenceEquals(_currentPage, targetPage)) return;
+
             // 所有権移譲で detach 済みのため、_contentContainer 外にある場合は再アタッチ
             if (targetPage.parent != _contentContainer)
                 _contentContainer.Add(targetPage);
@@ -288,7 +290,7 @@ namespace Lilja.DebugUI
                 SlidePage(prevPage, PagePosition.In, PagePosition.OutL, DebugMenuSettings.PageSlideDuration, () =>
                 {
                     prevPage.OnHidden();
-                    _pageCache.Return(prevPage);
+                    ReturnPage(prevPage);
                 });
             }
             else
@@ -311,6 +313,13 @@ namespace Lilja.DebugUI
         private void ShowPageImmediately(DebugPage page, PagePosition position)
         {
             page.style.left = new StyleLength(new Length((float)position, LengthUnit.Percent));
+        }
+
+        private void ReturnPage(DebugPage page)
+        {
+            _pageCache.Return(page);
+            if (!ReferenceEquals(_pageCache.Get(page.name), page))
+                page.RemoveFromHierarchy();
         }
 
         private void SlidePage(DebugPage page, PagePosition from, PagePosition to, float duration, Action onComplete = null)

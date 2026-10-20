@@ -323,7 +323,7 @@ namespace Lilja.DebugUI
             public T VisualElement<T>(T visualElement)
                 where T : VisualElement
             {
-                visualElement.style.flexBasis = new StyleLength(new Length(0));
+                visualElement.style.flexBasis = StyleKeyword.Auto;
                 visualElement.style.flexGrow = 1f;
                 return _inner.VisualElement(visualElement);
             }

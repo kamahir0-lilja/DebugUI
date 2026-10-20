@@ -43,6 +43,10 @@
     border-radius: var(--radius-button);
     border-width: 1px;
     -unity-font-style: bold;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .c-button--primary {
@@ -115,6 +119,9 @@
     color: var(--color-on-surface);
     -unity-text-align: middle-left;
     -unity-font-style: normal;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .c-nav-button__icon {
@@ -129,14 +136,30 @@
 /* ── DebugLabel ──────────────────────────────────────────────────────────── */
 .c-label {
     -unity-text-align: middle-left;
+    white-space: normal;
 }
 
 /* ── DebugInputField ─────────────────────────────────────────────────────── */
-.c-input .unity-base-field__label {
+.c-input.unity-base-field .unity-base-field__label {
     width: var(--size-label-width);
     margin: 0;
     padding: 0;
     -unity-text-align: middle-left;
+    color: var(--color-on-surface);
+}
+
+.c-input.unity-base-field:hover > .unity-base-field__label,
+.c-input.unity-base-field:focus > .unity-base-field__label,
+.c-input .unity-base-field:hover > .unity-base-field__label,
+.c-input .unity-base-field:focus > .unity-base-field__label,
+.c-radio-group.unity-base-field:hover > .unity-base-field__label,
+.c-radio-group.unity-base-field:focus > .unity-base-field__label {
+    color: var(--color-on-surface);
+}
+
+.c-radio-group .unity-radio-button:hover .unity-radio-button__text,
+.c-radio-group .unity-radio-button:focus .unity-radio-button__text {
+    color: var(--color-on-surface);
 }
 
 .c-input .unity-base-field__input {
@@ -148,6 +171,24 @@
     border-width: 1px;
     -unity-text-align: middle-left;
     --unity-cursor-color: var(--color-on-input);
+}
+
+.c-input.unity-progress-bar > .unity-progress-bar__container {
+    flex-grow: 1;
+    min-height: var(--size-control-height);
+}
+
+.c-input.unity-progress-bar .unity-progress-bar__background {
+    background-color: var(--color-input);
+    border-color: var(--color-input-border);
+}
+
+.c-input.unity-progress-bar .unity-progress-bar__progress {
+    background-color: var(--color-primary);
+}
+
+.c-input.unity-progress-bar .unity-progress-bar__title {
+    color: var(--color-on-surface);
 }
 
 /* Step-A: 複合フィールドの外側・中間ラッパーを透過に */
@@ -251,6 +292,13 @@
     width: var(--size-foldout-checkbox);
     height: var(--size-foldout-checkbox);
     -unity-background-image-tint-color: var(--color-on-surface);
+}
+
+.c-foldout > .unity-foldout__toggle > .unity-foldout__input > .unity-foldout__text,
+.c-foldout:hover > .unity-foldout__toggle > .unity-foldout__input > .unity-foldout__text,
+.c-foldout > .unity-foldout__toggle:hover > .unity-foldout__input > .unity-foldout__text,
+.c-foldout > .unity-foldout__toggle:focus > .unity-foldout__input > .unity-foldout__text {
+    color: var(--color-on-surface);
 }
 
 /* ── DebugToggleGroup ────────────────────────────────────────────────────── */
@@ -386,6 +434,9 @@
     color: var(--color-on-surface-header);
     -unity-text-align: middle-center;
     -unity-font-style: bold;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .c-menu-window__content {
@@ -403,6 +454,7 @@
 
 .c-h-scope {
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 /* ============================================================

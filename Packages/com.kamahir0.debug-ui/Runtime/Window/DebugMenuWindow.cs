@@ -39,7 +39,11 @@ namespace Lilja.DebugUI
         public string Label
         {
             get => _label.text;
-            set => _label.text = value;
+            set
+            {
+                _label.text = value;
+                _label.tooltip = value;
+            }
         }
 
         // ── IPageHost ────────────────────────────────────────────────────────
@@ -72,6 +76,11 @@ namespace Lilja.DebugUI
             BuildContent();
 
             RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
+            RegisterCallback<DetachFromPanelEvent>(_ =>
+            {
+                _positionController?.Dispose();
+                _positionController = null;
+            });
         }
 
         // ── 初期化 ───────────────────────────────────────────────────────────
@@ -116,6 +125,7 @@ namespace Lilja.DebugUI
 
         private void OnAttachToPanel(AttachToPanelEvent evt)
         {
+            _positionController?.Dispose();
             _positionController = new DebugMenuPositionController(this, _header);
             _positionController.RestoreOrDefault();
         }

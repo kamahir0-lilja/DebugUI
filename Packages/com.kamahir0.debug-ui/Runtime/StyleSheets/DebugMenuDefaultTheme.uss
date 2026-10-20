@@ -64,8 +64,8 @@
     --size-page-padding:          24px;
     --size-page-padding-bottom:   12px;
     --size-page-padding-top:      0px;
-    --size-window-max-width:      50%;
-    --size-window-width:          50%;
+    --size-window-max-width:      100%;
+    --size-window-width:          600px;
 
     /* --- 7. Scrollbar --- */
     --color-on-scrollbar-button:         #000000;
