@@ -36,3 +36,7 @@ ehthumbs.db
 Thumbs.db
 
 *.log
+
+# Isolated package verification
+/.ci-consumer/
+/artifacts/

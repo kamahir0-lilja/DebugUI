@@ -1,0 +1,15 @@
+{
+    "name": "Lilja.DebugUI.Tests.Editor",
+    "rootNamespace": "Lilja.DebugUI.Tests",
+    "references": [
+        "Lilja.DebugUI",
+        "Lilja.DebugUI.Editor",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"]
+}

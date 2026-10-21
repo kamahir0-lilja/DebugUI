@@ -90,7 +90,7 @@ namespace Lilja.DebugUI
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             if (_instance != null)
             {

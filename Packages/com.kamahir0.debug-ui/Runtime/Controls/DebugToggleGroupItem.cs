@@ -66,6 +66,7 @@ namespace Lilja.DebugUI
             Label = text;
 
             RegisterCallback<ClickEvent>(OnClick);
+            RegisterCallback<NavigationSubmitEvent>(OnSubmit);
             RegisterCallback<AttachToPanelEvent>(OnAttach);
             RegisterCallback<DetachFromPanelEvent>(OnDetach);
         }
@@ -81,6 +82,12 @@ namespace Lilja.DebugUI
         private void OnClick(ClickEvent e)
         {
             Value = !_value;
+        }
+
+        private void OnSubmit(NavigationSubmitEvent evt)
+        {
+            Value = !_value;
+            evt.StopPropagation();
         }
 
         private void OnAttach(AttachToPanelEvent e)

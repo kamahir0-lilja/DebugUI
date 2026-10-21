@@ -1,0 +1,5 @@
+{
+    "name": "Lilja.DebugUI.Development",
+    "rootNamespace": "Lilja.DebugUI.Development",
+    "references": ["Lilja.DebugUI"]
+}

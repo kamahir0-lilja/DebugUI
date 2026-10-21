@@ -51,7 +51,7 @@ namespace Lilja.DebugUI.Editor
 
         // ── パス定数 ──────────────────────────────────────────────────────────
 
-        private const string PackageName = "com.kamahir0.lilja.debug-ui";
+        private const string PackageName = "com.kamahir0.debug-ui";
         private const string ThemeUssRelativePath =
             "Editor/StyleSheets/DebugMenuEditorTheme.uss";
         private const string MenuUssRelativePath =
@@ -70,11 +70,14 @@ namespace Lilja.DebugUI.Editor
         {
             minSize = new Vector2(PageListMinWidth + PageContentMinWidth, WindowMinHeight);
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            DebugMenu.InitializationChanged += OnInitializationChanged;
         }
 
         private void OnDisable()
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            DebugMenu.InitializationChanged -= OnInitializationChanged;
+            EditorApplication.delayCall -= WaitForInitialize;
             ReleaseNavigator();
         }
 
@@ -113,6 +116,13 @@ namespace Lilja.DebugUI.Editor
         }
 
         // ── PlayMode 対応 ──────────────────────────────────────────────────────
+
+        private void OnInitializationChanged()
+        {
+            EditorApplication.delayCall -= WaitForInitialize;
+            ReleaseNavigator();
+            RefreshPlayModeState();
+        }
 
         private void OnPlayModeStateChanged(PlayModeStateChange state)
         {

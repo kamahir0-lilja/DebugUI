@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 #if UNITY_EDITOR
@@ -10,10 +11,13 @@ namespace Lilja.DebugUI
     /// デバッグメニューウィンドウの位置を制御する。
     /// ドラッグによる移動・ダブルクリックによる初期位置リセット・位置の保存と復元を担う。
     /// </summary>
-    internal sealed class DebugMenuPositionController
+    internal sealed class DebugMenuPositionController : IDisposable
     {
         private readonly VisualElement _window;
         private readonly VisualElement _header;
+        private readonly VisualElement _viewport;
+        private IVisualElementScheduledItem _resizeClamp;
+        private bool _initialLayout = true;
 
         // ドラッグ状態
         private bool _isDragging;
@@ -32,10 +36,54 @@ namespace Lilja.DebugUI
         {
             _window = window;
             _header = header;
+            _viewport = window.parent ?? window.panel.visualTree;
 
             header.RegisterCallback<PointerDownEvent>(OnPointerDown);
             header.RegisterCallback<PointerMoveEvent>(OnPointerMove);
             header.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            window.RegisterCallback<GeometryChangedEvent>(OnWindowGeometryChanged);
+            _viewport.RegisterCallback<GeometryChangedEvent>(OnViewportGeometryChanged);
+        }
+
+        public void Dispose()
+        {
+            _resizeClamp?.Pause();
+            _header.UnregisterCallback<PointerDownEvent>(OnPointerDown);
+            _header.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
+            _header.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+            _window.UnregisterCallback<GeometryChangedEvent>(OnWindowGeometryChanged);
+            _viewport.UnregisterCallback<GeometryChangedEvent>(OnViewportGeometryChanged);
+        }
+
+        private void OnWindowGeometryChanged(GeometryChangedEvent evt)
+        {
+            if (!_initialLayout && Mathf.Approximately(evt.oldRect.width, evt.newRect.width)) return;
+            ConstrainToViewport();
+        }
+
+        private void OnViewportGeometryChanged(GeometryChangedEvent evt)
+        {
+            if (evt.oldRect.size == evt.newRect.size) return;
+            _resizeClamp?.Pause();
+            _resizeClamp = _window.schedule.Execute(ConstrainToViewport);
+        }
+
+        // 保存元と異なる解像度でも、ヘッダーと操作領域にアクセスできる位置へ戻す。
+        private void ConstrainToViewport()
+        {
+            if (_isDragging || _window.panel == null) return;
+            var size = _viewport.layout.size;
+            var width = _window.resolvedStyle.width;
+            var headerHeight = _header.resolvedStyle.height;
+            if (!(size.x > 0 && size.y > 0 && width > 0 && headerHeight > 0)) return;
+            _initialLayout = false;
+            var left = _window.resolvedStyle.left;
+            var top = _window.resolvedStyle.top;
+            left = float.IsNaN(left) || float.IsInfinity(left) ? 0 : Mathf.Clamp(left, 0, Mathf.Max(0, size.x - width));
+            top = float.IsNaN(top) || float.IsInfinity(top) ? 0 : Mathf.Clamp(top, 0, Mathf.Max(0, size.y - headerHeight));
+            ApplyRestoredPosition(left, top);
+            if (HasSavedPosition() && (!Mathf.Approximately(left, LoadFloat(PrefKeyLeft)) || !Mathf.Approximately(top, LoadFloat(PrefKeyTop))))
+                SavePosition(left, top);
         }
 
         /// <summary>
@@ -150,7 +198,7 @@ namespace Lilja.DebugUI
             if (!_dragStarted) return;
 
             ClampPosition();
-            SavePosition(_window.resolvedStyle.left, _window.resolvedStyle.top);
+            SavePosition(_window.style.left.value.value, _window.style.top.value.value);
             evt.StopPropagation();
         }
 
@@ -164,7 +212,7 @@ namespace Lilja.DebugUI
         {
             if (_window.panel == null) return;
 
-            var panelRect = _window.panel.visualTree.layout;
+            var panelRect = _viewport.layout;
             var left = _window.resolvedStyle.left;
             var top = _window.resolvedStyle.top;
             var windowWidth = _window.resolvedStyle.width;
