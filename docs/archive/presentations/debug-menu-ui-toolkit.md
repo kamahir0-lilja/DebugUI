@@ -1,5 +1,14 @@
 # 自作デバッグメニューパッケージと UIToolkit 実戦知見
 
+Status: Archived
+
+- 用途: 15〜20分想定の社内発表スライド案。発表の実施状況は未記録。
+- 出典: [2026-06-18のGit取り込み時点](https://github.com/kamahir0-lilja/DebugUI/blob/8dd8ce6b3e440a92a8976e19774fae0b7ff7cc97/docs/debug-menu-uitoolkit-presentation.md)。正確な作成日は未記録。
+- 元のパス: `docs/debug-menu-uitoolkit-presentation.md`。
+- 保持方針: 当時の本文・発表者ノートを保持する。API・性能・手順を現行状態へ追従させる資料ではない。
+
+現行の契約は[製品仕様](../../specs/README.md)、調査の入口は[技術知見](../../knowledge/README.md)を参照する。
+
 15〜20分想定の社内発表スライド案。
 
 形式:

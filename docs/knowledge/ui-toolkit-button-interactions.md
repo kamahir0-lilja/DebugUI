@@ -1,5 +1,16 @@
 # ボタン・スクローラーのホバー・クリック外観カスタマイズ
 
+Status: Reference
+Verification: Historical
+
+- 対象: UI ToolkitのButton / ScrollView。詳細なUnity版・実測日は未記録。
+- 出典: [2026-06-18のGit取り込み時点](https://github.com/kamahir0-lilja/DebugUI/blob/8dd8ce6b3e440a92a8976e19774fae0b7ff7cc97/docs/button-interaction-styles.md)。Git保存日は実測日を意味しない。
+- 元のパス: `docs/button-interaction-styles.md`。
+- 現行での確認: 今回の整理では再実行していない。下記の断言・コード例は当時の観察と対処として読む。
+
+旧`src/`パスと現在の対応は[知見の索引](README.md)を参照。
+再利用の確認基準は[文書方針](../contributing/documentation-policy.md)、製品の期待結果は[仕様一覧](../specs/README.md)が所有する。
+
 ## 背景と問題
 
 Unity UI Toolkit のデフォルトテーマ (`unity-theme://default`) は、ボタンのホバー・クリック時に `background-color` を強制上書きする。

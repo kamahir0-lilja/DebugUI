@@ -4,12 +4,17 @@
 Editor版は `ProjectSettings/ProjectVersion.txt`、最低対応版はパッケージの `package.json` を参照する。
 ルートとパッケージ内の `README.md` は同一内容に保つ。
 
+## 仕様から進める
+
+- 振る舞いを変える作業は [仕様ワークフロー](docs/contributing/specification-workflow.md) に沿って、仕様・受け入れ条件を整理してから実装する。既存仕様どおりの不具合修正や誤字修正に新しい提案は不要。
+- [文書の入口](docs/README.md) から関係する仕様・知見だけを読む。製品の仕様、過去の観察、実装スキルを区別し、段階の移行だけを理由にユーザーの確認待ちにしない。
+
 ## UIの確認と完了条件
 
 - UI変更は実装中も、影響箇所を実際のUnityで操作して画像を見る。変更に応じたケースを選び、毎回の全件検証は行わなくてよい。
-- 完了前に自動テスト、定型シナリオの実操作、AIによる実画像レビューを行う。対象と判定基準は [UI検証ワークフロー](docs/ui-validation-workflow.md) に従う。修正後は影響範囲を再検証し、未実行・判定不能を合格にしない。
+- 完了前に自動テスト、定型シナリオの実操作、AIによる実画像レビューを行う。対象と判定基準は [UI検証ワークフロー](docs/contributing/ui-validation-workflow.md) に従う。修正後は影響範囲を再検証し、未実行・判定不能を合格にしない。
 - 配布・依存関係・リソース解決に影響する変更は、独立したGit導入先でも検証する。
-- 結果・証跡・未検証範囲は [レポートひな形](docs/ui-validation-report-template.md) に沿って `artifacts/validation/<run-id>/` に残す。
+- 結果・証跡・未検証範囲は [レポートひな形](docs/contributing/ui-validation-report-template.md) に沿って `artifacts/validation/<run-id>/` に残す。
 - 動作・表示に影響しない文書等の変更は静的確認のみでよい。UI検証は対象外とし、Unityを起動しない。
 
 ## Unityを放置しない

@@ -40,3 +40,6 @@ Thumbs.db
 # Isolated package verification
 /.ci-consumer/
 /artifacts/
+
+# Python tooling
+__pycache__/

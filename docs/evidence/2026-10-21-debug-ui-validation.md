@@ -1,8 +1,16 @@
 # Debug UI 検証記録
 
+Status: Historical
+
 検証日: 2026-10-21（JST）／環境: macOS、Unity 6000.6.4f1、Metal。
 
-このページは当日の実行記録。今後の検証手順・完了条件は [UI検証ワークフロー](ui-validation-workflow.md) を参照する。
+- 対象状態: 当時の未コミット作業ツリー。元の要約に実行時SHA・dirty差分の記載はなく、この文書だけでは完全な状態を固定できない。
+- 関連する実装の取り込み: [3f7fade](https://github.com/kamahir0-lilja/DebugUI/commit/3f7fadead33217d400f93403e73a123fde1a419d)。実行時のSHAを示すものではない。
+- 元のパス: `docs/debug-ui-validation.md`。
+- 証跡の保持: 下記の生ログ・画像はローカルのGit管理外フォルダー。リポジトリだけではすべてを取得できない。
+
+このページは当日の結果と当時の確認範囲を保持する。後日のCI結果や新しい変更の検証結果ではない。
+今後の検証手順・完了条件は [UI検証ワークフロー](../contributing/ui-validation-workflow.md) を参照する。
 
 修正後、開発プロジェクトで **51 / 51 成功**、独立したGit導入プロジェクトでも **51 / 51 成功**。
 失敗・スキップはどちらも0件。開発プロジェクトの全テスト終了後のConsoleはエラー0・警告0件だった。
@@ -17,7 +25,7 @@
 | ナビゲーション | 8 | 戻る・ルート復帰、同じページへの遷移、循環遷移、一時ページの解放、表示切り替え20回、遷移中の終了、同一フレームのオープンボタン生成、全配置位置 |
 | レイアウト | 6 | 幅240/480/960の折り返しと重なり、長文、メニュー幅、進捗バーの高さ、画面外の保存位置、960→320の縮小 |
 
-独立導入先は `.github/scripts/prepare_consumer.py` で現在のパッケージを一時Gitリポジトリへコピーし、
+独立導入先は `.github/scripts/prepare_consumer.py` で当時の作業ツリーのパッケージを一時Gitリポジトリへコピーし、
 `file://…/package.git?path=/Packages/com.kamahir0.debug-ui#<commit>` からUPMに導入した。
 開発プロジェクトのAddressables・Input System・Pipelineを引き継がない新規プロジェクトで、
 Basic Debug MenuサンプルもAssetsへ配置してコンパイルした。テスト用Unityは終了コード0で終了した。
@@ -53,8 +61,8 @@ EditorのLight/Dark設定とメニュー位置のEditorPrefsは検証前の状�
 ## 再実行と証跡
 
 開発プロジェクトの `Assets/Development/Scenes/DebugUIValidation.unity` をPlayすると手動検証用UIが開く。
-Test Runnerで `Lilja.DebugUI.Tests` を実行すると上記51件を再実行できる。
-Git導入プロジェクトの作成方法はREADMEの「開発・検証」を参照。
+当時のTest Runner実行対象は `Lilja.DebugUI.Tests` の51件。現行の件数は新しい実行結果から取得する。
+現行の再実行手順は [UI検証ワークフロー](../contributing/ui-validation-workflow.md)、Git導入先の作成は [README](../../README.md) を参照する。
 
 ローカルの `artifacts/validation/` にGame ViewのPNG、`embedded-tests.json`、
 `git-consumer-results.xml`、Git導入先のmanifestと実行ログを保存した。
