@@ -103,16 +103,19 @@ Editorウィンドウとゲーム画面は同じページを共有し、操作�
 配布対象は `Packages/com.kamahir0.debug-ui/` のみです。
 
 リポジトリでの作業は[AGENTS.md](https://github.com/kamahir0-lilja/DebugUI/blob/main/AGENTS.md)と
-[UI検証ワークフロー](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/ui-validation-workflow.md)に従います。
+[UI検証ワークフロー](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/contributing/ui-validation-workflow.md)に従います。
 実装中は変更箇所を実操作・画像で確認し、完了前に自動テストとAI画像レビューを行います。
+仕様・既存知見・活動スキルの入口は[開発ドキュメント](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/README.md)を参照してください。
+新しい振る舞いや既存仕様の変更は、受け入れ条件を整理・レビューしてから実装します。
 
 開発プロジェクトの `Assets/Development/Scenes/DebugUIValidation.unity` を開いてPlayすると、
 各入力型、ページ遷移、動的グループ、200行のスクロールを手動確認できます。
 画面サイズを変えた確認、Editorウィンドウとの切り替えにも使用できます。
 自動テストは値の通知、ライフサイクル、ナビゲーション、狭い画面のレイアウトを検査します。
-実行済みの範囲と制約は[検証記録](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/debug-ui-validation.md)を参照してください。
+実行済みの範囲と制約は[検証記録](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/evidence/2026-10-21-debug-ui-validation.md)を参照してください。
 
 ```sh
+python3 .github/scripts/check_docs.py
 python3 .github/scripts/validate_package.py
 python3 .github/scripts/prepare_consumer.py --output /tmp/debug-ui-consumer --unity-version 6000.6.4f1
 ```
