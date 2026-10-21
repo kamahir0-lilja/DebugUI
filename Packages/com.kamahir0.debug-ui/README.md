@@ -102,6 +102,10 @@ Editorウィンドウとゲーム画面は同じページを共有し、操作�
 リポジトリ直下は開発用Unityプロジェクトです。使用するEditorは `ProjectSettings/ProjectVersion.txt` を参照してください。
 配布対象は `Packages/com.kamahir0.debug-ui/` のみです。
 
+リポジトリでの作業は[AGENTS.md](https://github.com/kamahir0-lilja/DebugUI/blob/main/AGENTS.md)と
+[UI検証ワークフロー](https://github.com/kamahir0-lilja/DebugUI/blob/main/docs/ui-validation-workflow.md)に従います。
+実装中は変更箇所を実操作・画像で確認し、完了前に自動テストとAI画像レビューを行います。
+
 開発プロジェクトの `Assets/Development/Scenes/DebugUIValidation.unity` を開いてPlayすると、
 各入力型、ページ遷移、動的グループ、200行のスクロールを手動確認できます。
 画面サイズを変えた確認、Editorウィンドウとの切り替えにも使用できます。
